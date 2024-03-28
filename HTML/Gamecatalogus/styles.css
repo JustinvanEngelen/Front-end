@@ -47,13 +47,16 @@ header {
     background-color: #333;
     color: #fff;
     padding: 10px 0;
+    text-align: center; /* Center align text */
 }
 
-.container {
+.container1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
+    margin: 0 auto; /* Center align container */
+    max-width: 1200px; /* Limit container width */
 }
 
 /* Header links */
@@ -61,11 +64,25 @@ nav a {
     color: #fff;
     text-decoration: none;
     padding: 10px 20px;
-    margin-left: 10px;
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
 nav a:hover {
     background-color: #555;
+}
+
+h1 {
+    margin: 0; /* Remove default margin */
+}
+
+/* Adjustments for centering the checkboxes */
+.center {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px; /* Adjust as needed */
+    padding: 20px;
+    margin-right: 30%;
+    margin-left: 30%;
+    border: solid black 2px;
 }

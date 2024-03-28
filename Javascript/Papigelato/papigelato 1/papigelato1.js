@@ -9,7 +9,6 @@ function toonDagen() {
     // Geef de werkdagen weer in de HTML
     document.getElementById("werkdagen").innerText = dagenVanDeWeek.slice(0, 5).join(", ");
     // Geef de weekenddagen weer in de HTML
-    
     document.getElementById("weekenddagen").innerText = dagenVanDeWeek.slice(5).join(", ");
     // Geef de dagen van de week omgekeerd weer in de HTML
     // slice maakt een kopie van de array en reverse draait de array om
