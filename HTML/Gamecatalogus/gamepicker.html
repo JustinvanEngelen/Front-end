@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Picker</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .filter {
+            position: absolute;
+            top: 100px;
+            left: 20px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -19,9 +26,28 @@
             </nav>
         </div>
     </header>
-    <div id="container" class="center"></div>
+    <div class="filter">
+        <label for="maxPrice">Maximale prijs:</label>
+        <input type="number" id="maxPrice" min="0" step="0.01">
+        <br>
+        <label for="genreFilter">Genre:</label>
+        <select id="genreFilter">
+            <option value="all">Alle genres</option>
+            <option value="FPS">FPS</option>
+            <option value="MOBA">MOBA</option>
+            <option value="Action">Actie</option>
+            <option value="RPG">RPG</option>
+            <option value="Simulation">Simulatie</option>
+            <option value="Sport">Sport</option>
+            <option value="Sandbox">Sandbox</option>
+            <option value="Looter-shooter">Looter-shooter</option>
+            <!-- Voeg hier alle andere genres toe -->
+        </select>
+        <button onclick="filterGames()">Filter</button>
+    </div>
+    <div class="center" id="container"></div>
     <script>
-        var games = [
+       var games = [
     {
         "title": "Counter-Strike: Global Offensive",
         "price": 0.00,
@@ -217,24 +243,58 @@
 ]
 
 
-    var container = document.getElementById("container");
-    for (var i = 0; i < games.length; i++) {
-        var checkboxLabel = document.createElement("label");
-        checkboxLabel.className = "checkbox-label";
+        var container = document.getElementById("container");
 
-        var checkbox = document.createElement("input");
-        checkbox.setAttribute("type", "checkbox");
-        checkbox.value = games[i]["title"];
-        checkbox.className = "checkbox " + games[i]["genre"];
+        function renderGames(gamesArray) {
+            container.innerHTML = ""; 
 
-        var title = document.createElement("span");
-        title.textContent = games[i]["title"];
-        title.className = games[i]["genre"];
+            for (var i = 0; i < gamesArray.length; i++) {
+                var gameContainer = document.createElement("div");
+                gameContainer.className = "game-box";
 
-        checkboxLabel.appendChild(checkbox);
-        checkboxLabel.appendChild(title);
-        container.appendChild(checkboxLabel);
-    }
+                var checkboxLabel = document.createElement("label");
+                checkboxLabel.className = "checkbox-label";
+
+                var checkbox = document.createElement("input");
+                checkbox.setAttribute("type", "checkbox");
+                checkbox.value = gamesArray[i]["title"];
+                checkbox.className = "checkbox " + gamesArray[i]["genre"];
+
+                var title = document.createElement("span");
+                title.textContent = gamesArray[i]["title"];
+                title.className = "game-title";
+
+                var price = document.createElement("span");
+                price.textContent = "$" + gamesArray[i]["price"];
+                price.className = "price";
+
+                checkboxLabel.appendChild(checkbox);
+                checkboxLabel.appendChild(title);
+                checkboxLabel.appendChild(price);
+                gameContainer.appendChild(checkboxLabel);
+                container.appendChild(gameContainer);
+            }
+        }
+
+        function filterGames() {
+            var maxPrice = parseFloat(document.getElementById("maxPrice").value);
+            var selectedGenre = document.getElementById("genreFilter").value;
+            
+            var filteredGames = games.filter(function(game) {
+                if (!isNaN(maxPrice) && game.price > maxPrice) {
+                    return false;
+                }
+                if (selectedGenre !== 'all' && game.genre !== selectedGenre) {
+                    return false;
+                }
+                return true;
+            });
+
+            renderGames(filteredGames);
+        }
+
+        // Eerste rendering van alle games
+        renderGames(games);
     </script>
 </body>
 </html>
