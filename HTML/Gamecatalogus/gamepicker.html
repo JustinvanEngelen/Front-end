@@ -4,16 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Picker</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        .filter {
-            position: absolute;
-            top: 100px;
-            left: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="gamepicker.css">
+    
 </head>
 <body>
+    
     <header>
         <div class="container1">
             <h1>Game Picker</h1>
@@ -41,13 +36,31 @@
             <option value="Sport">Sport</option>
             <option value="Sandbox">Sandbox</option>
             <option value="Looter-shooter">Looter-shooter</option>
-            <!-- Voeg hier alle andere genres toe -->
         </select>
+        <br>
+        <label for="minRating">Minimale rating:</label>
+        <input type="number" id="minRating" min="1" max="5" step="1">
+        <br>
         <button onclick="filterGames()">Filter</button>
     </div>
+    <button class="shopping-cart-btn" onclick="showShoppingCart()">
+        <img src="images/winkelmandje.png" alt="Shopping Cart Icon"> Toon Winkelmandje
+    </button>
+    
     <div class="center" id="container"></div>
+    <div id="shoppingCart" style="display:none;">
+        <h2>Winkelmandje</h2>
+        <ul id="cartItems"></ul>
+        <div>
+            <strong>Totaal:</strong> <span id="totalPrice">$0.00</span>
+        </div>
+        <button onclick="hideShoppingCart()">Terug</button>
+        
+
+    </div>
     <script>
-       var games = [
+        // JavaScript-code
+        var games = [
     {
         "title": "Counter-Strike: Global Offensive",
         "price": 0.00,
@@ -240,61 +253,145 @@
         "genre": "Simulation",
         "rating": 3
     }
-]
-
-
-        var container = document.getElementById("container");
-
-        function renderGames(gamesArray) {
-            container.innerHTML = ""; 
-
-            for (var i = 0; i < gamesArray.length; i++) {
-                var gameContainer = document.createElement("div");
-                gameContainer.className = "game-box";
-
-                var checkboxLabel = document.createElement("label");
-                checkboxLabel.className = "checkbox-label";
-
-                var checkbox = document.createElement("input");
-                checkbox.setAttribute("type", "checkbox");
-                checkbox.value = gamesArray[i]["title"];
-                checkbox.className = "checkbox " + gamesArray[i]["genre"];
-
-                var title = document.createElement("span");
-                title.textContent = gamesArray[i]["title"];
-                title.className = "game-title";
-
-                var price = document.createElement("span");
-                price.textContent = "$" + gamesArray[i]["price"];
-                price.className = "price";
-
-                checkboxLabel.appendChild(checkbox);
-                checkboxLabel.appendChild(title);
-                checkboxLabel.appendChild(price);
-                gameContainer.appendChild(checkboxLabel);
-                container.appendChild(gameContainer);
-            }
-        }
-
-        function filterGames() {
-            var maxPrice = parseFloat(document.getElementById("maxPrice").value);
-            var selectedGenre = document.getElementById("genreFilter").value;
             
-            var filteredGames = games.filter(function(game) {
-                if (!isNaN(maxPrice) && game.price > maxPrice) {
-                    return false;
-                }
-                if (selectedGenre !== 'all' && game.genre !== selectedGenre) {
-                    return false;
-                }
-                return true;
-            });
+        ];
 
-            renderGames(filteredGames);
+        var selectedGames = [];
+var selectedGamesWithPrice = [];
+
+var container = document.getElementById("container");
+var cartItems = document.getElementById("cartItems");
+
+function renderGames(gamesArray) {
+    container.innerHTML = ""; 
+
+    for (var i = 0; i < gamesArray.length; i++) {
+        var gameContainer = document.createElement("div");
+        gameContainer.className = "game-box";
+
+        var checkboxLabel = document.createElement("label");
+        checkboxLabel.className = "checkbox-label";
+
+        var checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.value = gamesArray[i]["title"];
+        checkbox.className = "checkbox " + gamesArray[i]["genre"];
+
+        var title = document.createElement("span");
+        title.textContent = gamesArray[i]["title"];
+        title.className = "game-title";
+
+        var genre = document.createElement("span");
+        genre.textContent = gamesArray[i]["genre"];
+        genre.className = "genre";
+
+        var rating = document.createElement("span");
+        rating.className = "rating";
+        var ratingStars = '';
+        for (var j = 0; j < gamesArray[i]["rating"]; j++) {
+            ratingStars += '★';
         }
+        rating.textContent = ratingStars;
 
-        // Eerste rendering van alle games
-        renderGames(games);
+        var price = document.createElement("span");
+        price.textContent = "$" + gamesArray[i]["price"];
+        if (gamesArray[i]["price"] == 0) {
+            price.textContent = "Free";
+        }
+        price.className = "price";
+
+        checkbox.addEventListener("change", function(event) {
+            var gameTitle = event.target.value;
+            if (event.target.checked) {
+                addToCart(gameTitle);
+            } else {
+                removeFromCart(gameTitle);
+            }
+        });
+
+        checkboxLabel.appendChild(checkbox);
+        checkboxLabel.appendChild(title); 
+        checkboxLabel.appendChild(genre); 
+        checkboxLabel.appendChild(rating);
+        checkboxLabel.appendChild(price); 
+        gameContainer.appendChild(checkboxLabel);
+        container.appendChild(gameContainer);
+    }
+}
+
+function filterGames() {
+    var maxPrice = parseFloat(document.getElementById("maxPrice").value);
+    var selectedGenre = document.getElementById("genreFilter").value;
+    var minRating = parseInt(document.getElementById("minRating").value);
+
+    var filteredGames = games.filter(function(game) {
+        if (!isNaN(maxPrice) && game.price > maxPrice) {
+            return false;
+        }
+        if (selectedGenre !== 'all' && game.genre !== selectedGenre) {
+            return false;
+        }
+        if (!isNaN(minRating) && game.rating < minRating) {
+            return false;
+        }
+        return true;
+    });
+
+    renderGames(filteredGames);
+}
+
+function addToCart(gameTitle) {
+    var selectedGame = games.find(function(game) {
+        return game.title === gameTitle;
+    });
+
+    if (!selectedGames.includes(gameTitle) && selectedGame) {
+        selectedGames.push(gameTitle);
+        selectedGamesWithPrice.push(selectedGame);
+        renderCart();
+    }
+}
+
+function removeFromCart(gameTitle) {
+    var index = selectedGames.indexOf(gameTitle);
+    if (index !== -1) {
+        selectedGames.splice(index, 1);
+        selectedGamesWithPrice.splice(index, 1);
+        renderCart();
+    }
+}
+
+function renderCart() {
+    cartItems.innerHTML = "";
+    var totalPrice = 0;
+
+    selectedGamesWithPrice.forEach(function(game) {
+        var listItem = document.createElement("li");
+        listItem.textContent = game.title + " - $" + game.price;
+        cartItems.appendChild(listItem);
+        totalPrice += game.price;
+    });
+
+    document.getElementById("totalPrice").textContent = "$" + totalPrice.toFixed(2);
+}
+
+function showShoppingCart() {
+    document.getElementById("shoppingCart").style.display = "block";
+    document.getElementById("container").style.display = "none";
+    document.getElementsByClassName("filter")[0].style.display = "none";
+    document.getElementsByTagName("button")[0].style.display = "none";
+}
+
+function hideShoppingCart() {
+    document.getElementById("shoppingCart").style.display = "none";
+    document.getElementById("container").style.display = "block";
+    document.getElementsByClassName("filter")[0].style.display = "block";
+    document.getElementsByTagName("button")[0].style.display = "block";
+}
+
+// Laat de games eerst renderen
+renderGames(games);
+
     </script>
 </body>
 </html>

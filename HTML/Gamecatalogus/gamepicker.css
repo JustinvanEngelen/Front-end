@@ -1,0 +1,234 @@
+body{
+    margin: 0;
+    padding: 0;
+    
+    
+
+}
+
+header h1,
+header a {
+    display: inline;
+}
+
+* {
+    font-family: sans-serif;
+}
+
+/* Header styling */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    /* Center align text */
+}
+
+.container1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    margin: 0 auto;
+    /* Center align container */
+    max-width: 1200px;
+    /* Limit container width */
+}
+
+/* Header links */
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #555;
+}
+
+h1 {
+    margin: 0;
+    /* Remove default margin */
+}
+
+/* Adjustments for centering the checkboxes */
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Align items to the left */
+    margin-top: 20px;
+    /* Adjust as needed */
+    padding: 20px;
+    margin-right: 30%;
+    margin-left: 30%;
+    margin-bottom: 20px;
+    border: solid black 2px;
+}
+
+.checkbox-label {
+    display: flex;
+    flex-direction: column;
+    /* Stack items vertically */
+    align-items: flex-start;
+    /* Align items to the left */
+}
+
+/* Adjust margin between game titles and prices */
+.game-title {
+    margin-right: 10px;
+    /* Adjust as needed */
+}
+
+.game-box {
+    border: 1px solid #ccc;
+    /* Border around each game box */
+    padding: 10px;
+    /* Padding for better spacing */
+    margin-bottom: 10px;
+    /* Margin between game boxes */
+    width: 100%;
+    /* Adjusted width to fill the container */
+    height: auto;
+    /* Allow height to adjust based on content */
+}
+
+.filter {
+    position: absolute;
+    margin-top: 20px;
+    margin-right: 20px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    width: 300px;
+
+}
+
+.filter label {
+    display: block;
+    /* Display labels as block for better spacing */
+    margin-bottom: 10px;
+    /* Add margin between filter elements */
+}
+
+.filter select,
+.filter input[type="number"] {
+    width: 100%;
+    /* Make input fields and select box full width */
+    padding: 8px;
+    /* Add padding for better appearance */
+    margin-bottom: 10px;
+    /* Add margin between filter elements */
+    border: 1px solid #ccc;
+    /* Add border for clarity */
+    border-radius: 5px;
+    /* Add rounded corners */
+    box-sizing: border-box;
+    /* Ensure padding and border don't affect width */
+}
+
+.filter button {
+    padding: 10px 20px;
+    /* Add padding to the button */
+    background-color: #007bff;
+    /* Blue button color */
+    color: #fff;
+    /* White text color */
+    border: none;
+    /* Remove border */
+    border-radius: 5px;
+    /* Add rounded corners */
+    cursor: pointer;
+    /* Add pointer cursor on hover */
+    transition: background-color 0.3s ease;
+    /* Smooth transition */
+}
+
+.filter button:hover {
+    background-color: #0056b3;
+    /* Darker blue on hover */
+}
+
+.game-box {
+    border: 1px solid #ccc;
+    /* Border around each game box */
+    padding: 10px;
+    /* Padding for better spacing */
+    margin-bottom: 10px;
+    /* Margin between game boxes */
+    width: 480px;
+    /* Fixed width for each game box */
+    height: auto;
+    /* Allow height to adjust based on content */
+}
+
+.genre {
+    font-size: 14px;
+    color: #666;
+}
+
+.price {
+    display: block;
+    /* Make price appear on a new line */
+    font-weight: bold;
+    /* Make price bold for emphasis */
+}
+
+#shoppingCart {
+    
+    display: none;
+    border: 2px solid #ccc;
+    padding: 10px;
+    margin-top: 50px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    
+
+}
+
+#shoppingCart h2 {
+    margin-top: 0;
+}
+
+#cartItems {
+    list-style: none;
+    padding: 0;
+}
+
+#cartItems li {
+    margin-bottom: 5px;
+}
+
+img {
+    width: 24px;
+    /* Aanpassen aan de gewenste grootte */
+    height: 24px;
+    /* Aanpassen aan de gewenste grootte */
+    vertical-align: middle;
+    /* Voor uitlijning */
+    margin-right: 5px;
+   
+}
+/* CSS voor de winkelwagenknop */
+button.shopping-cart-btn {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.shopping-cart-btn:hover {
+    background-color: #0056b3;
+}
+
+
